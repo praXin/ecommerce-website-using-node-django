@@ -63,4 +63,3 @@ class ProfileSerializer(serializers.ModelSerializer):
         response = super().to_representation(instance)
         response['user'] = UserSerializer(instance.user).data
         return response
-    
