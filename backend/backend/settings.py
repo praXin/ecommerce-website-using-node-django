@@ -52,7 +52,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt.token_blacklist',
     'drf_yasg', # _ in between, not -
-    'shortuuid', # check this
+    'shortuuid', # check if this lib needs to be here
 ]
 
 MIDDLEWARE = [
