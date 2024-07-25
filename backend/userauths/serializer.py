@@ -24,10 +24,13 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         return token
     
 class RegisterSerializer(serializers.ModelSerializer):
-    
+    password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
+    password2 = serializers.CharField(write_only=True, required=True) # validators not required as we only have to check if password2 is the same as password
+
     class Meta:
         model = User
-        fields = ['full_name','email','phone','password ','password2'] # but user class in models.py doesn't have password and password2 fields
+        #fields = "__all__"
+        fields = ['full_name', 'email', 'phone', 'password', 'password2']
 
     def validate(self, attrs):
         if attrs['password'] != attrs['password2']:
@@ -38,11 +41,12 @@ class RegisterSerializer(serializers.ModelSerializer):
         user = User.objects.create(
             full_name = validated_data['full_name'],
             email = validated_data['email'],
-            phone = validated_data['phone']
+            phone = validated_data['phone'],
         )
 
-        email_user, mobile = user.email.split("@") # not sure if we're using email_user and mobile here
-        user.set_password(validate_password['password'])
+        email_user, mobile = user.email.split("@") # mobile is not being used again
+        user.username = email_user
+        user.set_password(validated_data['password'])
         user.save()
         return user
 
