@@ -1,0 +1,1 @@
+//creating authentication variables and functions
