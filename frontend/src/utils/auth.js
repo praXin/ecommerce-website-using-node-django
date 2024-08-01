@@ -1,11 +1,11 @@
-import { useAuthStore, userAuthStore} from '../store/auth'
+import { useAuthStore } from '../store/auth'
 import axios from './axios'
 import jwt_decode from 'jwt-decode'
-import Cookies from 'js-Cookies'
+import Cookies from 'js-cookie'
 
 export const login = async (email, password) => {
     try {
-        const {data, status} = await axios.post("user/token/",{
+        const { data, status } = await axios.post("user/token/", {
             email,
             password
         })
@@ -49,7 +49,7 @@ export const register = async (full_name, email, phone, password, password2) => 
 export const logout = () => {
     Cookies.remove("access_token")
     Cookies.remove("refresh_token")
-    userAuthStore.getState().setUser(null)
+    useAuthStore.getState().setUser(null)
 
     // alert
 }
