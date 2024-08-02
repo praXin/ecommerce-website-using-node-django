@@ -30,7 +30,7 @@ schema_view =  get_schema_view(
         default_version="v1",
         description="This is documentation for the backend API",
         terms_of_service="http://abc.com/policies",
-        contact=openapi.Contact(email="pravinkishore1997@gmail.com"),
+        contact=openapi.Contact(email="pravinkoyalkar.1997@gmail.com"),
         license=openapi.License(name="BSD License")
     ),
     public=True,
@@ -38,11 +38,11 @@ schema_view =  get_schema_view(
 )
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls), # email: pravinkoyalkar.1997@gmail.com; password: pravin22; username: kpravin
     path('api/v1/', include('api.urls')),
 
-    # Documentation
-    path("", schema_view.with_ui('swagger',cache_timeout=0), name="schema-swagger-ui")
+    # Testing easily
+    path("", schema_view.with_ui('swagger',cache_timeout=0), name="schema-swagger-ui"),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
