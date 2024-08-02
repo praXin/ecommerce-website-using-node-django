@@ -10,7 +10,7 @@ function Dashboard() {
 
     return (
         <>
-            {isLoggedIn() // in return function 2 lines above, you cannot write conditional statement in if. You have to use {}
+            {isLoggedIn() // in return function 2 lines above, you cannot write conditional statement in if. You have to use {}. Also check below if backtick MUST be used for logout instead of single quotes
                 ? <div>
                     <h1>Dashboard</h1>
                     <Link to={`/logout`}>Logout</Link>
