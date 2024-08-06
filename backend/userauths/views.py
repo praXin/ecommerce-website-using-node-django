@@ -30,7 +30,7 @@ class PasswordResetEmailVerify(generics.RetrieveAPIView):
     serializer_class = UserSerializer
 
     def get_object(self):
-        email = self.kwargs['email']
+        email = self.kwargs['email'] # taken from the url, after password-reset. Ex: http://127.0.0.1:8000/api/v1/user/password-reset/pravinkishore1997@gmail.com/
         user = User.objects.get(email=email)
 
         print("CHECKING IF USER EXISTS: ", user)

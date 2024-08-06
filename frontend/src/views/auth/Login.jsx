@@ -61,8 +61,12 @@ function Login() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)} // so whatever you type in input is getting typed and visible on the screen
             />
+            <br />
+            <br />
 
             <button type='submit'>Login</button>
+            <hr />
+            <Link to={'/forgot-password'}>Forgot Password?</Link>
         </form>
     </div>
     )
