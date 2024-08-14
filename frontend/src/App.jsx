@@ -6,6 +6,7 @@ import Register from './views/auth/Register'
 import Dashboard from './views/auth/Dashboard'
 import Logout from './views/auth/Logout'
 import ForgotPassword from './views/auth/ForgotPassword'
+import CreatePassword from './views/auth/CreatePassword'
 
 
 function App() {
@@ -19,6 +20,8 @@ function App() {
         <Route path='/logout' element={<Logout />} />
         <Route path='/' element={<Dashboard />} />
         <Route path='/forgot-password' element={<ForgotPassword />} />
+        <Route path='/create-new-password' element={<CreatePassword />} /> {/*path here must be must be same as the one provided in link of PasswordResetEmailVerify class backend/userauths/views.py*/}
+
       </Routes>
     </BrowserRouter>
   )

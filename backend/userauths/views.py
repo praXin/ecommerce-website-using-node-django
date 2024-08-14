@@ -60,7 +60,7 @@ class PasswordChangeView(generics.CreateAPIView): # just like RegisterView
         payload = request.data
         otp = payload['otp']
         uidb64 = payload['uidb64']
-        reset_token = payload['reset_token'] # reset_token variable yet to be used
+        # reset_token = payload['reset_token'] # reset_token variable yet to be used
         password = payload['password']
 
         user = User.objects.get(id=uidb64, otp=otp)

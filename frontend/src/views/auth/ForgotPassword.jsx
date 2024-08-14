@@ -1,16 +1,22 @@
 import { useState } from 'react'
 import apiInstance from '../../utils/axios';
+import { useNavigate } from 'react-router-dom';
 
 function ForgotPassword() {
     const [email, setEmail] = useState("")
 
-    const handleSubmit = () => {
+    const navigate = useNavigate()
+
+    const handleSubmit = async () => {
         try {
-                apiInstance.get(`user/password-reset/${email}/`).then((res) => { // to pass variables in url, use backtick (tilde button on keyboard)
-                console.log(res.data); // logging response data
+                await apiInstance.get(`user/password-reset/${email}/`).then((res) => { // to pass variables in url, use backtick (tilde button on keyboard)
+                    alert("An email has been sent to you.")
+                    // navigate("/create-new-password")
+                    // console.log(res.data); // logging response data
             })
         } catch (error) {
-            console.log(error);
+            alert("Email does not exist.")
+            // console.log(error);
         }
     }
 
@@ -19,7 +25,7 @@ function ForgotPassword() {
         <h1>Forgot Password</h1>
         <input 
             onChange={(e) => setEmail(e.target.value)} 
-            type="text" 
+            type="email" 
             placeholder='Enter Email' 
             name='' 
             id='' 
