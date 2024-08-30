@@ -58,6 +58,7 @@ function Login() {
                 type="password" 
                 name="password" 
                 id="password" 
+                className='form-control' 
                 value={password}
                 onChange={(e) => setPassword(e.target.value)} // so whatever you type in input is getting typed and visible on the screen
             />
