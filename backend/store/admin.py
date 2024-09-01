@@ -1,5 +1,5 @@
 from django.contrib import admin
-from store.models import Product, Category, Gallery, Specification, Size, Color
+from store.models import Product, Category, Gallery, Specification, Size, Color, Cart, CartOrder, CartOrderItem
 
 class GalleryInLine(admin.TabularInline):
     model = Gallery
@@ -25,5 +25,30 @@ class ProductAdmin(admin.ModelAdmin):
     search_fields = ['title']
     inlines = [GalleryInLine, SpecificationInLine, SizeInLine, ColorInLine]
 
+# Check self-made mistakes from here
+
+class CartAdmin(admin.ModelAdmin):
+    list_display = ['price', 'shipping_amount', 'total', 'size', 'color']
+    # list_editable = ['featured']
+    list_filter = ['size']
+    search_fields = ['color']
+
+class CartOrderAdmin(admin.ModelAdmin):
+    list_display = ['buyer', 'shipping_amount', 'total', 'payment_status', 'order_status']
+    list_editable = ['payment_status','order_status']
+    list_filter = ['full_name']
+    search_fields = ['payment_status']
+
+class CartOrderItemAdmin(admin.ModelAdmin):
+    list_display = ['tax_fee', 'total', 'service_fee', 'size', 'color']
+    list_editable = ['service_fee']
+    list_filter = ['size']
+    search_fields = ['color']
+
+
 admin.site.register(Category)
-admin.site.register(Product, ProductAdmin)
+admin.site.register(Product, ProductAdmin) # register ProductAdmin which in turn registers other inline classes
+
+admin.site.register(Cart, CartAdmin)
+admin.site.register(CartOrder, CartOrderAdmin)
+admin.site.register(CartOrderItem, CartOrderItemAdmin)

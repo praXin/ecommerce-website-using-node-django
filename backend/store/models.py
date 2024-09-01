@@ -89,3 +89,103 @@ class Color(models.Model):
 
     def __str__(self):
         return self.name
+    
+class Cart(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    qty = models.PositiveIntegerField(default=0)
+    price = models.DecimalField(default=0.00, max_digits=12, decimal_places=2)
+    sub_total = models.DecimalField(default=0.00, max_digits=12, decimal_places=2) # price*qty
+    shipping_amount = models.DecimalField(default=0.00, max_digits=12, decimal_places=2)
+    service_fee = models.DecimalField(default=0.00, max_digits=12, decimal_places=2)
+    tax_fee = models.DecimalField(default=0.00, max_digits=12, decimal_places=2)
+    total = models.DecimalField(default=0.00, max_digits=12, decimal_places=2)
+    country = models.CharField(max_length=100, null=True, blank=True) # Assume country is USA in case null or blank is true
+    size = models.DecimalField(default=0.00, max_digits=12, decimal_places=2)
+    color = models.DecimalField(default=0.00, max_digits=12, decimal_places=2)
+    cart_id = models.DecimalField(default=0.00, max_digits=12, decimal_places=2)
+    date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.cart_id} - {self.product.title}" #akjbbcakbvfi - beanies
+    
+class CartOrder(models.Model):
+    PAYMENT_STATUS = (
+        ("paid", "Paid"),
+        ("pending", "Pending"),
+        ("processing", "Processing"),
+        ("cancelled", "Cancelled"),
+    )
+
+    ORDER_STATUS = (
+        ("pending", "Pending"),
+        ("fulfilled", "Fulfilled"),
+        ("cancelled", "Cancelled"),
+    )
+
+    vendor = models.ManyToManyField(Vendor, blank=True)
+    buyer = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+
+    sub_total = models.DecimalField(default=0.00, max_digits=12, decimal_places=2) # price*qty
+    shipping_amount = models.DecimalField(default=0.00, max_digits=12, decimal_places=2)
+    tax_fee = models.DecimalField(default=0.00, max_digits=12, decimal_places=2)
+    service_fee = models.DecimalField(default=0.00, max_digits=12, decimal_places=2)
+    total = models.DecimalField(default=0.00, max_digits=12, decimal_places=2)
+
+    payment_status = models.CharField(choices=PAYMENT_STATUS, max_length=100, default="pending")
+    order_status = models.CharField(choices=ORDER_STATUS, max_length=100, default="pending")
+
+    # Coupons
+    initial_total = models.DecimalField(default=0.00, max_digits=12, decimal_places=2)
+    saved = models.DecimalField(default=0.00, max_digits=12, decimal_places=2)
+
+    # Biodata
+    full_name = models.CharField(max_length=100, null=True, blank=True)
+    email = models.CharField(max_length=100, null=True, blank=True)
+    mobile = models.CharField(max_length=100, null=True, blank=True)
+
+    # Shipping Address
+    address = models.CharField(max_length=100, null=True, blank=True)
+    city = models.CharField(max_length=100, null=True, blank=True)
+    state = models.CharField(max_length=100, null=True, blank=True)
+    country = models.CharField(max_length=100, null=True, blank=True)
+
+    oid = ShortUUIDField(unique=True, length=10, alphabet="abcdefg12345") #acee32gb54
+    date = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return self.oid
+    
+
+class CartOrderItem(models.Model):
+    ORDER_STATUS = (
+        ("pending", "Pending"),
+        ("fulfilled", "Fulfilled"),
+        ("cancelled", "Cancelled"),
+    )
+
+    order = models.ForeignKey(CartOrder, on_delete=models.CASCADE)
+    vendor = models.ForeignKey(Vendor, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+
+    qty = models.PositiveIntegerField(default=0)
+    price = models.DecimalField(default=0.00, max_digits=12, decimal_places=2)
+    sub_total = models.DecimalField(default=0.00, max_digits=12, decimal_places=2) # price*qty
+    shipping_amount = models.DecimalField(default=0.00, max_digits=12, decimal_places=2)
+    service_fee = models.DecimalField(default=0.00, max_digits=12, decimal_places=2)
+    tax_fee = models.DecimalField(default=0.00, max_digits=12, decimal_places=2)
+    total = models.DecimalField(default=0.00, max_digits=12, decimal_places=2)
+    country = models.CharField(max_length=100, null=True, blank=True) # Assume country USA in case null or blank is true
+    
+    size = models.DecimalField(default=0.00, max_digits=12, decimal_places=2)
+    color = models.DecimalField(default=0.00, max_digits=12, decimal_places=2)
+
+    # Coupons
+    initial_total = models.DecimalField(default=0.00, max_digits=12, decimal_places=2)
+    saved = models.DecimalField(default=0.00, max_digits=12, decimal_places=2)
+
+    oid = ShortUUIDField(unique=True, length=10, alphabet="abcdefg12345")
+    date = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return self.oid
