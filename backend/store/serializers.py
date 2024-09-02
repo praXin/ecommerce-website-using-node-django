@@ -43,7 +43,7 @@ class ColorSerializer(serializers.ModelSerializer):
 class ProductSerializer(serializers.ModelSerializer):
     gallery = GallerySerializer(many=True, read_only=True) # "gallery" variable name must be the same that will be accessed by react/frontend
     color = ColorSerializer(many=True, read_only=True)
-    specification = SpecificationSerializer(many=True, read_only=True) # SpecificationSerializer instead of just Specification ?
+    specification = SpecificationSerializer(many=True, read_only=True)
     size = SizeSerializer(many=True, read_only=True)
 
     class Meta:
@@ -67,7 +67,7 @@ class ProductSerializer(serializers.ModelSerializer):
             'color',
             'specification',
             'size',
-            'product_rating', # product_rating method of Product model is called and returned value is appended in fields
+            'product_rating', # product_rating method of Product model is called and the returned value is appended in 'fields'
             'rating_count',
 
             'pid',
