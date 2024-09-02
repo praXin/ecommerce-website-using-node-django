@@ -60,6 +60,24 @@ class Product(models.Model):
         product_rating = Review.objects.filter(product=self).aggregate(avg_rating=models.Avg("rating"))
         return product_rating['avg_rating']
     
+    def rating_count(self):
+        return Review.objects.filter(product=self).count()
+    
+    def gallery(self): # function must have same name as the variable name in ProductSerializer to avoid naming conflicts
+        return Gallery.objects.filter(product=self)
+    
+    def specification(self):
+        return Specification.objects.filter(product=self)
+    
+    def color(self):
+        return Color.objects.filter(product=self)
+    
+    def size(self):
+        return Size.objects.filter(product=self)
+    
+    def color(self):
+        return Color.objects.filter(product=self)
+    
     def save(self, *args, **kwargs): # method overwritten?
         self.rating = self.product_rating
         super(Product, self).save(*args, **kwargs)
@@ -249,7 +267,7 @@ def update_product_rating(sender, instance, **kwargs):
         instance.product.save()
 
 
-class WishList(models.Model):
+class Wishlist(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)

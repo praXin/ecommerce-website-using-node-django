@@ -1,5 +1,5 @@
 from django.contrib import admin
-from store.models import Product, Category, Gallery, Specification, Size, Color, Cart, CartOrder, CartOrderItem, ProductFaq, Review, WishList, Notification, Coupon
+from store.models import Product, Category, Gallery, Specification, Size, Color, Cart, CartOrder, CartOrderItem, ProductFaq, Review, Wishlist, Notification, Coupon
 
 class GalleryInLine(admin.TabularInline):
     model = Gallery
@@ -51,7 +51,7 @@ class ProductFaqAdmin(admin.ModelAdmin):
 class ReviewAdmin(admin.ModelAdmin):
     list_display = ['user', 'product']
 
-class WishListAdmin(admin.ModelAdmin):
+class WishlistAdmin(admin.ModelAdmin):
     list_display = ['user', 'product']
 
 class NotificationAdmin(admin.ModelAdmin):
@@ -69,6 +69,6 @@ admin.site.register(CartOrder, CartOrderAdmin)
 admin.site.register(CartOrderItem, CartOrderItemAdmin)
 admin.site.register(ProductFaq, ProductFaqAdmin)
 admin.site.register(Review, ReviewAdmin)
-admin.site.register(WishList, WishListAdmin)
+admin.site.register(Wishlist, WishlistAdmin)
 admin.site.register(Notification, NotificationAdmin)
 admin.site.register(Coupon, CouponAdmin)
