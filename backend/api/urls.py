@@ -15,4 +15,6 @@ urlpatterns = [
     # store endpoints
     path('category/', store_views.CategoryListAPIView.as_view()),
     path('products/', store_views.ProductListAPIView.as_view()),
+    path('products/<slug>/', store_views.ProductDetailAPIView.as_view()), # which is better - accessing products using queryset in views.py with id here i.e. <int:pk> or with slug here i.e. <slug>
+    
 ]
