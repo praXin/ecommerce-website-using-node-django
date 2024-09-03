@@ -9,7 +9,7 @@ import ForgotPassword from './views/auth/ForgotPassword'
 import CreatePassword from './views/auth/CreatePassword'
 import StoreHeader from './views/base/StoreHeader'
 import StoreFooter from './views/base/StoreFooter'
-import MainWrapper from './layout/MainWrapper'
+import Products from './views/store/Products'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -17,18 +17,18 @@ function App() {
   return (
     <BrowserRouter>
       <StoreHeader />
-      {/* <MainWrapper> */}
         <Routes>
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />
           <Route path='/logout' element={<Logout />} />
-          <Route path='/' element={<Dashboard />} />
+          <Route path='/dashboard' element={<Dashboard />} />
           <Route path='/forgot-password' element={<ForgotPassword />} />
           <Route path='/create-new-password' element={<CreatePassword />} /> {/*path here must be must be same as the one provided in link of PasswordResetEmailVerify class backend/userauths/views.py*/}
 
+          {/* Store Components */}
+          <Route path='/' element={<Products />} />
         </Routes>
-        <StoreFooter />
-      {/* </MainWrapper> */}
+      <StoreFooter />
     </BrowserRouter>
   )
 }

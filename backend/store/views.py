@@ -23,4 +23,4 @@ class ProductDetailAPIView(generics.RetrieveAPIView): # RetrieveAPIView can be u
 
     def get_object(self):
         slug = self.kwargs['slug']
-        return Product.objects.get(slug=slug) # slug = <variable name above>
+        return Product.objects.get(slug=slug) # slug = <the variable name above>
