@@ -57,7 +57,7 @@ class Product(models.Model):
         return self.title
     
     def product_rating(self):
-        product_rating = Review.objects.filter(product=self).aggregate(avg_rating=models.Avg("rating"))
+        product_rating = Review.objects.filter(product=self).aggregate(avg_rating=models.Avg('rating'))
         return product_rating['avg_rating']
     
     def rating_count(self):
@@ -78,9 +78,9 @@ class Product(models.Model):
     def color(self):
         return Color.objects.filter(product=self)
     
-    def save(self, *args, **kwargs): # method overwritten?
-        self.rating = self.product_rating
-        super(Product, self).save(*args, **kwargs)
+    # def save(self, *args, **kwargs): # method overwritten?
+    #     self.rating = self.product_rating()
+    #     super(Product, self).save(*args, **kwargs)
     
 class Gallery(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
