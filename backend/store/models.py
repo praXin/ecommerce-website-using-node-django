@@ -129,9 +129,9 @@ class Cart(models.Model):
     tax_fee = models.DecimalField(default=0.00, max_digits=12, decimal_places=2)
     total = models.DecimalField(default=0.00, max_digits=12, decimal_places=2)
     country = models.CharField(max_length=100, null=True, blank=True) # Assume country is USA in case null or blank is true
-    size = models.DecimalField(default=0.00, max_digits=12, decimal_places=2)
-    color = models.DecimalField(default=0.00, max_digits=12, decimal_places=2)
-    cart_id = models.DecimalField(default=0.00, max_digits=12, decimal_places=2)
+    size = models.CharField(max_length=100, null=True, blank=True)
+    color = models.CharField(max_length=100, null=True, blank=True)
+    cart_id = models.CharField(max_length=1000, null=True, blank=True)
     date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -205,8 +205,8 @@ class CartOrderItem(models.Model):
     total = models.DecimalField(default=0.00, max_digits=12, decimal_places=2)
     country = models.CharField(max_length=100, null=True, blank=True) # Assume country USA in case null or blank is true
     
-    size = models.DecimalField(default=0.00, max_digits=12, decimal_places=2)
-    color = models.DecimalField(default=0.00, max_digits=12, decimal_places=2)
+    size = models.CharField(max_length=100, null=True, blank=True)
+    color = models.CharField(max_length=100, null=True, blank=True)
 
     # Coupons
     initial_total = models.DecimalField(default=0.00, max_digits=12, decimal_places=2)
