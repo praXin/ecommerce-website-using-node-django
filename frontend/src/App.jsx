@@ -10,6 +10,7 @@ import CreatePassword from './views/auth/CreatePassword'
 import StoreHeader from './views/base/StoreHeader'
 import StoreFooter from './views/base/StoreFooter'
 import Products from './views/store/Products'
+import ProductDetail from './views/store/ProductDetail'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -27,6 +28,7 @@ function App() {
 
           {/* Store Components */}
           <Route path='/' element={<Products />} />
+          <Route path='/detail/:slug/' element={<ProductDetail />} />
         </Routes>
       <StoreFooter />
     </BrowserRouter>

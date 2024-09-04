@@ -1,15 +1,24 @@
 import React, {useState, useEffect} from 'react'
-
+import { Link } from 'react-router-dom'
 import apiInstance from '../../utils/axios'
 
 function Products() {
     const [products, setProducts] = useState([])
+    const [category, setCategory] = useState([])
 
     useEffect(() => {
         apiInstance.get(`products/`).then((response) => {
             setProducts(response.data)
         })      
     }, [])
+
+    useEffect(() => {
+        apiInstance.get(`category/`).then((res) => {
+            setCategory(res.data)
+        })
+    }, [])
+    console.log(category);
+    
 
     return (
         <>
@@ -18,22 +27,26 @@ function Products() {
                     <section className="text-center">
                         <div className='row'>
                             {products?.map((p, index) => (
-                                <div className="col-lg-4 col-md-12 mb-4">
+                                <div className="col-lg-4 col-md-12 mb-4" key={index}>
                                     <div className="card">
                                         <div
                                             className="bg-image hover-zoom ripple"
                                             data-mdb-ripple-color="light"
                                         >
-                                            <img
-                                                src={p.image}
-                                                className="w-100"
-                                                style={{width:"100%", height:"250px", objectFit:"cover"}}
-                                            />
+                                            <Link to={`/detail/${p.slug}/`}>
+                                                <img
+                                                    src={p.image}
+                                                    className="w-100"
+                                                    style={{width:"100%", height:"250px", objectFit:"cover"}}
+                                                />
+                                            </Link>
                                         </div>
                                         <div className='card-body'>
-                                            <a href="" className='text-reset'>
+                                            {/* <a href="" className='text-reset'> */}
+                                            <Link to={`/detail/${p.slug}/`}>
                                                 <h5 className='card-title mb-3'>{p.title}</h5>
-                                            </a>
+                                            </Link>
+                                            {/* </a> */}
                                             <a href="" className='text-reset'>
                                                 <p>{p.category?.title}</p>
                                             </a>
@@ -131,33 +144,18 @@ function Products() {
                             ))}
 
                             <div className='row'>
+                                {category.map((c, index)=> (
+
                                 <div className='col-lg-2'>
-                                    <img src="https://skala.or.id/wp-content/uploads/2024/01/dummy-post-square-1-1.jpg" style={{width:"100px", height:"100px", borderRadius:"50%", objectFit:"cover"}} alt="" />
-                                    <h6>Category</h6>
+                                    <img src={c.image} style={{width:"100px", height:"100px", borderRadius:"50%", objectFit:"cover"}} alt="" />
+                                    <h6>{c.title}</h6>
                                 </div>
-                                <div className='col-lg-2'>
-                                    <img src="https://skala.or.id/wp-content/uploads/2024/01/dummy-post-square-1-1.jpg" style={{width:"100px", height:"100px", borderRadius:"50%", objectFit:"cover"}} alt="" />
-                                    <h6>Category</h6>
-                                </div>
-                                <div className='col-lg-2'>
-                                    <img src="https://skala.or.id/wp-content/uploads/2024/01/dummy-post-square-1-1.jpg" style={{width:"100px", height:"100px", borderRadius:"50%", objectFit:"cover"}} alt="" />
-                                    <h6>Category</h6>
-                                </div>
-                                <div className='col-lg-2'>
-                                    <img src="https://skala.or.id/wp-content/uploads/2024/01/dummy-post-square-1-1.jpg" style={{width:"100px", height:"100px", borderRadius:"50%", objectFit:"cover"}} alt="" />
-                                    <h6>Category</h6>
-                                </div>
-                                <div className='col-lg-2'>
-                                    <img src="https://skala.or.id/wp-content/uploads/2024/01/dummy-post-square-1-1.jpg" style={{width:"100px", height:"100px", borderRadius:"50%", objectFit:"cover"}} alt="" />
-                                    <h6>Category</h6>
-                                </div>
-                                <div className='col-lg-2'>
-                                    <img src="https://skala.or.id/wp-content/uploads/2024/01/dummy-post-square-1-1.jpg" style={{width:"100px", height:"100px", borderRadius:"50%", objectFit:"cover"}} alt="" />
-                                    <h6>Category</h6>
-                                </div>
+                                ))}
+
                             </div>
                         </div>
                     </section>
+                    {/* Section: wishlist */}
                 </div>
             </main>
         </>              
