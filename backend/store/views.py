@@ -105,3 +105,4 @@ class CartAPIView(generics.ListCreateAPIView):
             cart.save()
 
             return Response({'message': 'Cart Updated Successfully'}, status=status.HTTP_201_CREATED)
+        
