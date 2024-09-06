@@ -1,6 +1,9 @@
 import React, {useState, useEffect} from 'react'
 import { Link } from 'react-router-dom'
 import apiInstance from '../../utils/axios'
+import GetCurrentAddress from '../plugin/UserCountry'
+import UserData from '../plugin/UserData'
+import CardID from '../plugin/CardID'
 
 
 function Products() {
@@ -14,6 +17,10 @@ function Products() {
     const [selectedProduct, setSelectedProduct] = useState(null)
     const [selectedColors, setSelectedColors] = useState({})
     const [selectedSize, setSelectedSize] = useState({})
+
+    const currentAddress = GetCurrentAddress()
+    const userData = UserData()
+    const cart_id = CardID()
 
     const handleColorButtonClick = (event, product_id, colorName) => {
         setColorValue(colorName)
@@ -52,7 +59,22 @@ function Products() {
             setCategory(res.data)
         })
     }, [])
-    console.log(category);
+    
+    const handleAddToCart = async (product_id, price, shipping_amount) => {
+        const formdata = new FormData()
+        formdata.append("product_id", product_id)
+        formdata.append("user_id", userData?.user_id)
+        formdata.append("qty", qtyValue)
+        formdata.append("price", price)
+        formdata.append("shipping_amount", shipping_amount)
+        formdata.append("country", currentAddress.country)
+        formdata.append("size", sizeValue)
+        formdata.append("color", colorValue)
+        formdata.append("cart_id", cart_id)
+
+        const response = await apiInstance.post(`cart-view/`, formdata)
+        console.log(response.data);
+    }
     
 
     return (
@@ -153,6 +175,7 @@ function Products() {
                                                         <button
                                                             type='button'
                                                             className='btn btn-primary me-1 mb-1'
+                                                            onClick={() => handleAddToCart(p.id, p.price, p.shipping_amount)}
                                                         >
                                                             <i className='fas fa-shopping-cart' />
                                                         </button>
