@@ -69,53 +69,39 @@ function Products() {
                                                     className='dropdown-menu'
                                                     aria-labelledby='dropdownMenuClickable'
                                                 >
-                                                    <div className='d-flex flex-column'>
-                                                        <li className='p-1'>
-                                                            <b>Size</b>: XL
-                                                        </li>
-                                                        <div className='p-1 mt-0 pt-0 d-flex flex-wrap'>
-                                                            <li>
-                                                                <button className='btn btn-secondary btn-sm me-2 mb-1'>
-                                                                    XXL
-                                                                </button>
+                                                    {p.size?.length > 0 && 
+                                                        <div className='d-flex flex-column'>
+                                                            <li className='p-1'>
+                                                                <b>Size</b>: XL
                                                             </li>
-                                                            <li>
-                                                                <button className='btn btn-secondary btn-sm me-2 mb-1'>
-                                                                    XXL
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <button className='btn btn-secondary btn-sm me-2 mb-1'>
-                                                                    XXL
-                                                                </button>
-                                                            </li>
+                                                            <div className='p-1 mt-0 pt-0 d-flex flex-wrap'>
+                                                                {p.size?.map((size, index) => (
+                                                                    <li>
+                                                                        <button className='btn btn-secondary btn-sm me-2 mb-1'>
+                                                                            {size.name}
+                                                                        </button>
+                                                                    </li>
+                                                                ))}
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div className='d-flex flex-column mt-3'>
-                                                        <li className='p-1'>
-                                                            <b>Color</b>: Red
-                                                        </li>
-                                                        <div className='p-1 mt-0 pt-0 d-flex flex-wrap'>
-                                                            <li>
-                                                                <button
-                                                                    className='btn btn-sm me-2 mb-1 p-3'
-                                                                    style={{backgroundColor: "red"}}
-                                                                />
+                                                    }
+                                                    {p.color?.length>0 && 
+                                                        <div className='d-flex flex-column mt-3'>
+                                                            <li className='p-1'>
+                                                                <b>Color</b>: Red
                                                             </li>
-                                                            <li>
-                                                                <button
-                                                                    className='btn btn-sm me-2 mb-1 p-3'
-                                                                    style={{backgroundColor: "green"}}
-                                                                />
-                                                            </li>
-                                                            <li>
-                                                                <button
-                                                                    className='btn btn-sm me-2 mb-1 p-3'
-                                                                    style={{backgroundColor: "yellow"}}
-                                                                />
-                                                            </li>
+                                                            <div className='p-1 mt-0 pt-0 d-flex flex-wrap'>
+                                                                {p.color?.map((color, index) => (
+                                                                <li>
+                                                                    <button
+                                                                        className='btn btn-sm me-2 mb-1 p-3'
+                                                                        style={{backgroundColor: `${color.color_code}` }}
+                                                                    />
+                                                                </li>
+                                                                ))}
+                                                            </div>
                                                         </div>
-                                                    </div>
+                                                    }
                                                     <div className='d-flex mt-3 p-1'>
                                                         <button
                                                             type='button'
