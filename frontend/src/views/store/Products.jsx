@@ -9,10 +9,11 @@ function Products() {
 
     const [colorValue, setColorValue] = useState("No Color")
     const [sizeValue, setSizeValue] = useState("No Size")
+    const [qtyValue, setQtyValue] = useState(1)
 
     const [selectedProduct, setSelectedProduct] = useState(null)
-    const [selectedColors, setSelectedColors] = useState(null)
-    const [selectedSize, setSelectedSize] = useState(null)
+    const [selectedColors, setSelectedColors] = useState({})
+    const [selectedSize, setSelectedSize] = useState({})
 
     const handleColorButtonClick = (event, product_id, colorName) => {
         setColorValue(colorName)
@@ -34,9 +35,10 @@ function Products() {
         }))
     }
 
-    console.log(selectedProduct);
-    console.log(selectedColors);
-    console.log(selectedSize);
+    const handleQtyChange = (event, product_id) => {
+        setQtyValue(event.target.value)
+        setSelectedProduct(product_id)
+    }
     
 
     useEffect(() => {
@@ -102,10 +104,21 @@ function Products() {
                                                     className='dropdown-menu'
                                                     aria-labelledby='dropdownMenuClickable'
                                                 >
+                                                    <div className='d-flex flex-column'>
+                                                            <li className='p-1'>
+                                                                <b>Quantity</b>:
+                                                            </li>
+                                                            <div className='p-1 mt-0 pt-0 d-flex flex-wrap'>
+                                                                <li>
+                                                                    <input className='form-control' onChange={(e) => handleQtyChange(e, p.id)} type="number" />
+                                                                </li>
+                                                            </div>
+                                                        </div>
+
                                                     {p.size?.length > 0 && 
                                                         <div className='d-flex flex-column'>
                                                             <li className='p-1'>
-                                                                <b>Size</b>: XL
+                                                                <b>Size</b>: {selectedSize[p.id] || 'Select size'}
                                                             </li>
                                                             <div className='p-1 mt-0 pt-0 d-flex flex-wrap'>
                                                                 {p.size?.map((size, index) => (
@@ -121,7 +134,7 @@ function Products() {
                                                     {p.color?.length>0 && 
                                                         <div className='d-flex flex-column mt-3'>
                                                             <li className='p-1'>
-                                                                <b>Color</b>: Red
+                                                                <b>Color</b>: {selectedColors[p.id] || "Select color"}
                                                             </li>
                                                             <div className='p-1 mt-0 pt-0 d-flex flex-wrap'>
                                                                 {p.color?.map((color, index) => (
