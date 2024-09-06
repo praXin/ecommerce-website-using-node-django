@@ -2,9 +2,42 @@ import React, {useState, useEffect} from 'react'
 import { Link } from 'react-router-dom'
 import apiInstance from '../../utils/axios'
 
+
 function Products() {
     const [products, setProducts] = useState([])
     const [category, setCategory] = useState([])
+
+    const [colorValue, setColorValue] = useState("No Color")
+    const [sizeValue, setSizeValue] = useState("No Size")
+
+    const [selectedProduct, setSelectedProduct] = useState(null)
+    const [selectedColors, setSelectedColors] = useState(null)
+    const [selectedSize, setSelectedSize] = useState(null)
+
+    const handleColorButtonClick = (event, product_id, colorName) => {
+        setColorValue(colorName)
+        setSelectedProduct(product_id)
+
+        setSelectedColors((prevSelectedColors) => ({
+            ...prevSelectedColors,
+            [product_id]: colorName
+        }))
+    }
+    
+    const handleSizeButtonClick = (event, product_id, sizeName) => {
+        setSizeValue(sizeName)
+        setSelectedProduct(product_id)
+
+        setSelectedSize((prevSelectedSize) => ({
+            ...prevSelectedSize,
+            [product_id]: sizeName
+        }))
+    }
+
+    console.log(selectedProduct);
+    console.log(selectedColors);
+    console.log(selectedSize);
+    
 
     useEffect(() => {
         apiInstance.get(`products/`).then((response) => {
@@ -77,7 +110,7 @@ function Products() {
                                                             <div className='p-1 mt-0 pt-0 d-flex flex-wrap'>
                                                                 {p.size?.map((size, index) => (
                                                                     <li>
-                                                                        <button className='btn btn-secondary btn-sm me-2 mb-1'>
+                                                                        <button onClick={(e) => handleSizeButtonClick(e, p.id, size.name)} className='btn btn-secondary btn-sm me-2 mb-1'>
                                                                             {size.name}
                                                                         </button>
                                                                     </li>
@@ -96,6 +129,7 @@ function Products() {
                                                                     <button
                                                                         className='btn btn-sm me-2 mb-1 p-3'
                                                                         style={{backgroundColor: `${color.color_code}` }}
+                                                                        onClick={(e) => handleColorButtonClick(e, p.id, color.name)}
                                                                     />
                                                                 </li>
                                                                 ))}
