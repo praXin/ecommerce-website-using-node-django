@@ -1,6 +1,6 @@
 import React from 'react'
 
-function CardID() {
+function CardID() { //CartID aaah. Oh well
     const generateRandomString = () => {
         const length = 30
         const characters = "ABCDEFGHIJKL1234567"

@@ -76,7 +76,7 @@ class CartAPIView(generics.ListCreateAPIView):
             cart.cart_id = cart_id
 
             service_fee_percentage = 10 / 100
-            cart.service_fee = service_fee_percentage * cart.sub_total
+            cart.service_fee = Decimal(service_fee_percentage) * cart.sub_total
 
             cart.total = cart.sub_total + cart.shipping_amount + cart.service_fee + cart.tax_fee
             cart.save()
@@ -99,7 +99,7 @@ class CartAPIView(generics.ListCreateAPIView):
             cart.cart_id = cart_id
 
             service_fee_percentage = 10 / 100
-            cart.service_fee = service_fee_percentage * cart.sub_total
+            cart.service_fee = Decimal(service_fee_percentage) * cart.sub_total
 
             cart.total = cart.sub_total + cart.shipping_amount + cart.service_fee + cart.tax_fee
             cart.save()
