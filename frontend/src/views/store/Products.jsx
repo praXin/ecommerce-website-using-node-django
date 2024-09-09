@@ -4,7 +4,16 @@ import apiInstance from '../../utils/axios'
 import GetCurrentAddress from '../plugin/UserCountry'
 import UserData from '../plugin/UserData'
 import CardID from '../plugin/CardID'
+import Swal from 'sweetalert2'
 
+
+const Toast = Swal.mixin({
+    toast: true,
+    position: "top",
+    showConfirmButton: false,
+    timer: 1500,
+    timerProgressBar: true
+})
 
 function Products() {
     const [products, setProducts] = useState([])
@@ -72,8 +81,13 @@ function Products() {
         formdata.append("color", colorValue)
         formdata.append("cart_id", cart_id)
 
-        const response = await apiInstance.post(`cart-view/`, formdata)
+        const response = await apiInstance.post(`cart-view/`, formdata) // inserting data from frontend directly to the DB?
         console.log(response.data);
+
+        Toast.fire({
+            icon: "success",
+            title: response.data.message
+        })
     }
     
 
