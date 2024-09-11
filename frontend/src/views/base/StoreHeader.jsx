@@ -102,8 +102,10 @@ function StoreHeader() {
 
                             </>
                         }
-                        {/* <Link className="btn btn-danger" to="/cart/"><i className='fas fa-shopping-cart'></i> <span id='cart-total-items'>{cartCount || 0}</span></Link> */}
-
+                        <Link className="btn btn-danger" type="submit" to="/cart/">
+                            <i className='fas fa-shopping-cart' />{" "} 
+                            <span id='cart-total-items'>4</span>
+                        </Link>
                     </div>
                 </div>
             </nav>
