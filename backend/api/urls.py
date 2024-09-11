@@ -17,4 +17,6 @@ urlpatterns = [
     path('products/', store_views.ProductListAPIView.as_view()),
     path('products/<slug>/', store_views.ProductDetailAPIView.as_view()), # which is better - accessing products using queryset in views.py with id here i.e. <int:pk> or with slug here i.e. <slug>
     path('cart-view/', store_views.CartAPIView.as_view()),
+    path('cart-list/<str:cart_id>/<int:user_id>/', store_views.CartListView.as_view()),
+    path('cart-list/<str:cart_id>/', store_views.CartListView.as_view()), # in case user isn't logged in or does not exist
 ]
