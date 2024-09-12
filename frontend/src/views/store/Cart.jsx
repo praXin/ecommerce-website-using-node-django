@@ -1,6 +1,35 @@
-import React from 'react'
+import { useState, useEffect } from 'react'
+import apiInstance from '../../utils/axios'
+import UserData from '../plugin/UserData'
+import CardID from '../plugin/CardID'
 
 function Cart() {
+    const [cart, setCart] = useState([])
+    console.log(cart);
+
+    const userData = UserData()
+    const cart_id = CardID()
+
+    const fetchCartData = (cartId, userId) => {
+        const url = userId ? `cart-list/${cartId}/${userId}/` : `cart-list/${cartId}/`
+        apiInstance.get(url).then((res) => {
+            setCart(res.data)
+        })
+    }
+
+    if (cart_id !== null || cart_id !== undefined){
+        if(userData !== undefined) { // if userData is null?
+            // Send cart data with userId and cartId
+            useEffect(() => {
+                fetchCartData(cart_id, userData?.user_id)
+            }, [])
+        } else {
+            // Send cart data without userId but only cart_Id
+            useEffect(() => {
+                fetchCartData(cart_id, null)
+            }, [])
+        }
+    }
 
     return (
         <main className="mt-5">
@@ -12,7 +41,10 @@ function Cart() {
                                 <div className="col-lg-8 mb-4 mb-md-0">
                                     <section className="mb-5">
 
-                                        <div className="row border-bottom mb-4">
+                                        {cart?.map((c, index) => (
+                                            
+                                        
+                                        <div className="row border-bottom mb-4" key={index}>
                                             <div className="col-md-2 mb-4 mb-md-0">
                                                 <div
                                                     className="bg-image ripple rounded-5 mb-4 overflow-hidden d-block"
@@ -21,10 +53,10 @@ function Cart() {
                                                     {/* Check */}
                                                     {/* <Link to=''> */}
                                                     <img
-                                                        src="https://www.eclosio.ong/wp-content/uploads/2018/08/default.png"
+                                                        src={c.product?.image}
                                                         className="w-100"
                                                         alt=""
-                                                        style={{ height: "100px", objectFit: "cover", borderRadius: "10px" }}
+                                                        style={{width: "100px", height: "100px", objectFit: "cover", borderRadius: "10px" }}
                                                     />
                                                     {/* </Link> */}
                                                     <a href="#!">
@@ -40,32 +72,37 @@ function Cart() {
                                                 </div>
                                             </div>
                                             <div className="col-md-8 mb-4 mb-md-0">
-                                                {/* Check */}
-                                                {/* <Link to={null} className="fw-bold text-dark mb-4">Product Title</Link> */}
-                                                <p className="mb-0">
-                                                    <span className="text-muted me-2">Size:</span>
-                                                    <span>XXL</span>
-                                                </p>
-                                                <p className='mb-0'>
-                                                    <span className="text-muted me-2">Color:</span>
-                                                    <span>Pink</span>
-                                                </p>
-                                                <p className='mb-0'>
+                                                <p className='fw-bold'>{c.product?.title}</p>
+                                                <p className='mb-1'>
                                                     <span className="text-muted me-2">Price:</span>
-                                                    <span>$20.00</span>
+                                                    <span>Rs.{c.price}</span>
                                                 </p>
-                                                <p className='mb-0'>
+                                                {c.size !== "No Size" && 
+                                                    <p className="mb-1">
+                                                        <span className="text-muted me-2">Size:</span>
+                                                        <span>{c.size}</span>
+                                                    </p>
+                                                }
+                                                {c.color !== "No Color" && 
+                                                    <p className='mb-0'>
+                                                        <span className="text-muted me-2">Color:</span>
+                                                        <span>{c.color}</span>
+                                                    </p>
+                                                }
+                                                <p className='mb-1'>
                                                     <span className="text-muted me-2">Stock Qty:</span>
-                                                    <span>3</span>
+                                                    <span>{c.qty}</span>
                                                 </p>
-                                                <p className='mb-0'>
+                                                <p className='mb-1'>
                                                     <span className="text-muted me-2">Vendor:</span>
-                                                    <span>Desphixs</span>
+                                                    <span>Pravin</span>
                                                 </p>
                                                 <p className="mt-3">
-                                                    <button className="btn btn-danger ">
-                                                    <small><i className="fas fa-trash me-2" />Remove</small>
-                                                    </button>
+                                                    <a href="" className='text-danger pe-3'>
+                                                        <small>
+                                                            <i className="fas fa-trash me-2" />Remove
+                                                        </small>
+                                                    </a>
                                                 </p>
                                             </div>
                                             <div className="col-md-2 mb-4 mb-md-0">
@@ -74,7 +111,7 @@ function Cart() {
                                                         type="number"
                                                         id='typeNumber'
                                                         className="form-control"
-                                                        defaultValue={1}
+                                                        value={c.qty}
                                                         min={1}
 
                                                     />
@@ -89,106 +126,110 @@ function Cart() {
                                             </div>
                                         </div>
 
-                                        <>
+                                        ))}
+
+                                        {cart.length < 1 && 
                                             <h5>Your Cart Is Empty</h5>
+                                        }
                                             {/* Check */}
                                             {/* <Link to='/'> <i className='fas fa-shopping-cart'></i> Continue Shopping</Link> */}
-                                        </>
 
                                     </section>
-                                    <div>
-                                        <h5 className="mb-4 mt-4">Contact Information</h5>
-                                        {/* 2 column grid layout with text inputs for the first and last names */}
-                                        <div className="row mb-4">
-                                            <div className="col-lg-12">
-                                                <div className="form-outline">
-                                                    <label className="form-label" htmlFor="full_name"> <i className='fas fa-user'></i> Full Name</label>
-                                                    <input
-                                                    type="text"
-                                                    id=""
-                                                    name='fullName'
-                                                    className="form-control"
-                                                    />
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div className="row mb-4">
-                                            <div className="col-lg-6">
-                                                <div className="form-outline">
-                                                    <label className="form-label" htmlFor="form6Example1"><i className='fas fa-envelope'></i> Email</label>
-                                                    <input
-                                                    type="text"
-                                                    id="form6Example1"
-                                                    className="form-control"
-                                                    name='email'
-
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div className="col-lg-6">
-                                                <div className="form-outline">
-                                                    <label className="form-label" htmlFor="form6Example1"><i className='fas fa-phone'></i> Mobile</label>
-                                                    <input
-                                                    type="text"
-                                                    id="form6Example1"
-                                                    className="form-control"
-                                                    name='mobile'
-                                                    />
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <h5 className="mb-1 mt-4">Shipping Details</h5>
-
-                                        <div className="row mb-4">
-                                            <div className="col-lg-6 mt-3">
-                                                <div className="form-outline">
-                                                    <label className="form-label" htmlFor="form6Example1"> Address</label>
-                                                    <input
-                                                    type="text"
-                                                    id="form6Example1"
-                                                    className="form-control"
-                                                    name='address'
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div className="col-lg-6 mt-3">
-                                                <div className="form-outline">
-                                                    <label className="form-label" htmlFor="form6Example1"> City</label>
-                                                    <input
-                                                    type="text"
-                                                    id="form6Example1"
-                                                    className="form-control"
-                                                    name='city'
-                                                    />
+                                    {cart?.length > 0 && 
+                                        <form>
+                                            <h5 className="mb-4 mt-4">Contact Information</h5>
+                                            {/* 2 column grid layout with text inputs for the first and last names */}
+                                            <div className="row mb-4">
+                                                <div className="col-lg-12">
+                                                    <div className="form-outline">
+                                                        <label className="form-label" htmlFor="full_name"> <i className='fas fa-user'></i> Full Name</label>
+                                                        <input
+                                                            type="text"
+                                                            id=""
+                                                            name='fullName'
+                                                            className="form-control"
+                                                        />
+                                                    </div>
                                                 </div>
                                             </div>
 
-                                            <div className="col-lg-6 mt-3">
-                                                <div className="form-outline">
-                                                    <label className="form-label" htmlFor="form6Example1"> State</label>
-                                                    <input
-                                                    type="text"
-                                                    id="form6Example1"
-                                                    className="form-control"
-                                                    name='state'
-                                                    />
+                                            <div className="row mb-4">
+                                                <div className="col-lg-6">
+                                                    <div className="form-outline">
+                                                        <label className="form-label" htmlFor="form6Example1"><i className='fas fa-envelope'></i> Email</label>
+                                                        <input
+                                                            type="text"
+                                                            id="form6Example1"
+                                                            className="form-control"
+                                                            name='email'
+
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <div className="col-lg-6">
+                                                    <div className="form-outline">
+                                                        <label className="form-label" htmlFor="form6Example1"><i className='fas fa-phone'></i> Mobile</label>
+                                                        <input
+                                                            type="text"
+                                                            id="form6Example1"
+                                                            className="form-control"
+                                                            name='mobile'
+                                                        />
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div className="col-lg-6 mt-3">
-                                                <div className="form-outline">
-                                                    <label className="form-label" htmlFor="form6Example1"> Country</label>
-                                                    <input
-                                                    type="text"
-                                                    id="form6Example1"
-                                                    className="form-control"
-                                                    name='country'
-                                                    />
+
+                                            <h5 className="mb-1 mt-4">Shipping Details</h5>
+
+                                            <div className="row mb-4">
+                                                <div className="col-lg-6 mt-3">
+                                                    <div className="form-outline">
+                                                        <label className="form-label" htmlFor="form6Example1"> Address</label>
+                                                        <input
+                                                            type="text"
+                                                            id="form6Example1"
+                                                            className="form-control"
+                                                            name='address'
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <div className="col-lg-6 mt-3">
+                                                    <div className="form-outline">
+                                                        <label className="form-label" htmlFor="form6Example1"> City</label>
+                                                        <input
+                                                            type="text"
+                                                            id="form6Example1"
+                                                            className="form-control"
+                                                            name='city'
+                                                        />
+                                                    </div>
+                                                </div>
+
+                                                <div className="col-lg-6 mt-3">
+                                                    <div className="form-outline">
+                                                        <label className="form-label" htmlFor="form6Example1"> State</label>
+                                                        <input
+                                                            type="text"
+                                                            id="form6Example1"
+                                                            className="form-control"
+                                                            name='state'
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <div className="col-lg-6 mt-3">
+                                                    <div className="form-outline">
+                                                        <label className="form-label" htmlFor="form6Example1"> Country</label>
+                                                        <input
+                                                            type="text"
+                                                            id="form6Example1"
+                                                            className="form-control"
+                                                            name='country'
+                                                        />
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
+                                        </form>
+                                    }
                                 </div>
                                 <div className="col-lg-4 mb-4 mb-md-0">
                                     {/* Section: Summary */}
