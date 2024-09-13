@@ -21,4 +21,6 @@ urlpatterns = [
     path('cart-list/<str:cart_id>/', store_views.CartListView.as_view()), # in case user isn't logged in or does not exist
     path('cart-detail/<str:cart_id>/<int:user_id>/', store_views.CartDetailView.as_view()),
     path('cart-detail/<str:cart_id>/', store_views.CartDetailView.as_view()),
+    path('cart-delete/<str:cart_id>/<int:item_id>/<int:user_id>/', store_views.CartItemDeleteAPIView.as_view()),
+    path('cart-delete/<str:cart_id>/<int:item_id>/', store_views.CartItemDeleteAPIView.as_view()),
 ]

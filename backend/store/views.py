@@ -11,6 +11,16 @@ from rest_framework.response import Response
 from decimal import Decimal
 
 
+'''
+CreateAPIView: For creating new objects via POST requests only. No listing functionality.
+ListCreateAPIView: Combines listing and creating. Handles GET requests for listing and POST requests for creating new objects.
+RetrieveAPIView: For retrieving a single object via a GET request. No creation or listing functionality.
+ListAPIView: For listing multiple objects via GET requests. No creation functionality.
+
+https://www.django-rest-framework.org/api-guide/generic-views/
+'''
+
+
 class CategoryListAPIView(generics.ListAPIView): # ListAPIView is being used here 
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
@@ -181,3 +191,21 @@ class CartDetailView(generics.RetrieveAPIView):
     
     def calculate_total(self, cart_item):
         return cart_item.total
+    
+
+class CartItemDeleteAPIView(generics.DestroyAPIView):
+    serializer_class = CartSerializer
+    lookup_field = "cart_id"
+
+    def get_object(self):
+        cart_id = self.kwargs['cart_id']
+        item_id = self.kwargs['item_id']
+        user_id = self.kwargs.get('user_id') # user_id may or may not exist
+        
+        if user_id:
+            user = User.objects.get(id=user_id)
+            cart = Cart.objects.get(id=item_id, cart_id=cart_id, user=user)
+        else:
+            cart = Cart.objects.get(id=item_id, cart_id=cart_id)
+
+        return cart # will delete the cart item?!
