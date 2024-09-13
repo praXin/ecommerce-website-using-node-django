@@ -2,6 +2,16 @@ import { useState, useEffect } from 'react'
 import apiInstance from '../../utils/axios'
 import UserData from '../plugin/UserData'
 import CardID from '../plugin/CardID'
+import GetCurrentAddress from '../plugin/UserCountry'
+import Swal from 'sweetalert2'
+
+const Toast = Swal.mixin({
+    toast: true,
+    position: "top",
+    showConfirmButton: false,
+    timer: 1500,
+    timerProgressBar: true
+})
 
 function Cart() {
     const [cart, setCart] = useState([])
@@ -10,6 +20,7 @@ function Cart() {
 
     const userData = UserData()
     const cart_id = CardID()
+    const currentAddress = GetCurrentAddress()
 
     const fetchCartData = (cartId, userId) => {
         const url = userId ? `cart-list/${cartId}/${userId}/` : `cart-list/${cartId}/`
@@ -52,13 +63,38 @@ function Cart() {
 
     const handleQtyChange = (event, product_id) => {
         const quantity = event.target.value
-        console.log(quantity);
-        console.log(product_id);
 
         setProductQuantities((prevQuantities) => ({
             ...prevQuantities,
             [product_id]:quantity
         }))
+    }
+
+    const updateCart = async (product_id, price, shipping_amount, color, size) => {
+        const qtyValue = productQuantities[product_id]
+
+        const formdata = new FormData()
+
+        formdata.append("product_id", product_id)
+        formdata.append("user_id", userData?.user_id)
+        formdata.append("qty", qtyValue)
+        formdata.append("price", price)
+        formdata.append("shipping_amount", shipping_amount)
+        formdata.append("country", currentAddress.country)
+        formdata.append("size", size)
+        formdata.append("color", color)
+        formdata.append("cart_id", cart_id)
+
+        const response = await apiInstance.post('cart-view/', formdata)
+        console.log(response.data);
+
+        fetchCartData(cart_id, userData?.user_id)
+        fetchCartTotal(cart_id, userData?.user_id)
+
+        Toast.fire({
+            icon: "success",
+            title: response.data.message
+        })
     }
 
 
@@ -106,7 +142,7 @@ function Cart() {
                                                 <p className='fw-bold'>{c.product?.title}</p>
                                                 <p className='mb-1'>
                                                     <span className="text-muted me-2">Price:</span>
-                                                    <span>Rs.{c.price}</span>
+                                                    <span>Rs. {c.price}</span>
                                                 </p>
                                                 {c.size !== "No Size" && 
                                                     <p className="mb-1">
@@ -146,10 +182,10 @@ function Cart() {
                                                         min={1}
                                                         onChange={(e) => handleQtyChange(e, c.product.id)}      
                                                     />
-                                                    <button className='btn btn-primary ms-2'><i className='fas fa-rotate-right'></i></button>
+                                                    <button onClick={() => updateCart(c.product.id, c.product.price, c.product.shipping_amount, c.color, c.size)} className='btn btn-primary ms-2'><i className='fas fa-rotate-right'></i></button>
                                                 </div>
                                                 <h5 className='mb-2'>
-                                                    <span className='align-middle'>$101</span>
+                                                    <span className='align-middle'>Rs. {c.sub_total}</span>
                                                 </h5>
                                                 <p className="text-dark">
                                                     <small>Sub Total</small><br />
@@ -268,24 +304,24 @@ function Cart() {
                                         <h5 className="mb-3">Cart Summary</h5>
                                         <div className="d-flex justify-content-between mb-3">
                                             <span>Subtotal </span>
-                                            <span>Rs.{cartTotal.sub_total?.toFixed(2)}</span>
+                                            <span>Rs. {cartTotal.sub_total?.toFixed(2)}</span>
                                         </div>
                                         <div className="d-flex justify-content-between">
                                             <span>Shipping </span>
-                                            <span>Rs.{cartTotal.shipping?.toFixed(2)}</span>
+                                            <span>Rs. {cartTotal.shipping?.toFixed(2)}</span>
                                         </div>
                                         <div className="d-flex justify-content-between">
                                             <span>Tax </span>
-                                            <span>Rs.{cartTotal.tax?.toFixed(2)}</span>
+                                            <span>Rs. {cartTotal.tax?.toFixed(2)}</span>
                                         </div>
                                         <div className="d-flex justify-content-between">
                                             <span>Service Fee </span>
-                                            <span>Rs.{cartTotal.service_fee?.toFixed(2)}</span>
+                                            <span>Rs. {cartTotal.service_fee?.toFixed(2)}</span>
                                         </div>
                                         <hr className="my-4" />
                                         <div className="d-flex justify-content-between fw-bold mb-5">
                                             <span>Total </span>
-                                            <span>Rs.{cartTotal.total?.toFixed(2)}</span>
+                                            <span>Rs. {cartTotal.total?.toFixed(2)}</span>
                                         </div>
                                         <button className="btn btn-primary btn-rounded w-100" >
                                             Proceed to checkout <i className='fas fa-arrow-right'></i>
