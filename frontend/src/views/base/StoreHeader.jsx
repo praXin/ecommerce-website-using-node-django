@@ -15,7 +15,7 @@ function StoreHeader() {
         state.user,
     ]);
 
-    console.log("user().vendor_id", user().vendor_id);
+    // console.log("user().vendor_id", user().vendor_id);
 
     const navigate = useNavigate()
 
