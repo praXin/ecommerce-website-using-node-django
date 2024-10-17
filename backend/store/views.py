@@ -228,18 +228,20 @@ class CreateOrderAPIView(generics.CreateAPIView):
         cart_id = payload['cart_id']
         user_id = payload['user_id']
 
-        if user_id != 0:
-            user = User.objects.get(id=user_id)   
-        else:
+        try:
+            user = User.objects.get(id=user_id)
+        except:
             user = None
 
         total_shipping = Decimal(0.00)
         total_tax = Decimal(0.00)
-        total_service_tax = Decimal(0.00)
+        total_service_fee= Decimal(0.00)
+        total_sub_total= Decimal(0.00)
         total_initial_total = Decimal(0.00)
         total_total = Decimal(0.00)
 
         order =  CartOrder.objects.create(
+            buyer=user,
             full_name=full_name,
             email=email,
             mobile=mobile,
@@ -269,17 +271,17 @@ class CreateOrderAPIView(generics.CreateAPIView):
 
             total_shipping += Decimal(c.shipping_amount)
             total_tax += Decimal(c.tax_fee)
-            total_service_tax += Decimal(c.service_fee)
+            total_service_fee += Decimal(c.service_fee)
             total_sub_total += Decimal(c.sub_total)
             total_initial_total += Decimal(c.total)
             total_total += Decimal(c.total)
 
-            order.vendor.add(c.product.vendor)
+            order.vendor.add(c.product.vendor) # check
 
 
         order.shipping_amount = total_shipping
         order.tax_fee = total_tax
-        order.service_fee = total_service_tax
+        order.service_fee = total_service_fee
         order.sub_total = total_sub_total
         order.initial_total = total_initial_total
         order.total = total_total

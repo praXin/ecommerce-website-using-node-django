@@ -164,14 +164,27 @@ function Cart() {
         }
     }
 
-    const createOrder = () => {
-        console.log(fullName);
-        console.log(email);
-        console.log(mobile);
-        console.log(address);
-        console.log(city);
-        console.log(state);
-        console.log(country);
+    const createOrder = async () => {
+        if(!fullName || !email || !mobile || !address || !city || !state || !country){
+            Swal.fire({
+                icon: 'warning',
+                title: "Missing fields!",
+                text: "All fields are mandatory"
+            })
+        }
+
+        const formdata = new FormData()
+        formdata.append("full_name", fullName)
+        formdata.append("email", email)
+        formdata.append("mobile", mobile)
+        formdata.append("address", address)
+        formdata.append("city", city)
+        formdata.append("state", state)
+        formdata.append("country", country)
+        formdata.append("cart_id", cart_id)
+        formdata.append("user_id", userData ? userData?.user_id : 0)
+
+        const response = await apiInstance.post('create-order/', formdata)
     }
 
 
