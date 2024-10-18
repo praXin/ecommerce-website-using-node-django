@@ -34,7 +34,7 @@ class CartAdmin(admin.ModelAdmin):
     search_fields = ['color']
 
 class CartOrderAdmin(admin.ModelAdmin):
-    list_display = ['buyer', 'shipping_amount', 'total', 'payment_status', 'order_status']
+    list_display = ['full_name', 'oid', 'shipping_amount', 'total', 'payment_status', 'order_status']
     list_editable = ['payment_status','order_status']
     list_filter = ['full_name']
     search_fields = ['payment_status']
