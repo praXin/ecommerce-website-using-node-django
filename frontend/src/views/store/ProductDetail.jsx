@@ -140,7 +140,7 @@ function ProductDetail() {
                                 </div>
                                 <h5 className="mb-3">
                                     <s className="text-muted me-2 small align-middle">Rs.{product.old_price}</s>
-                                    <span className="align-middle">Rs.{product.price}</span>
+                                    <span className="align-middle">${product.price}</span>
                                 </h5>
                                 <p className="text-muted">
                                     {product.description}

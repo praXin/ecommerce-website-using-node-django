@@ -3,7 +3,7 @@ from rest_framework import serializers
 from store.models import Category, Product, Gallery, Specification, Size, Color, Cart, CartOrder, CartOrderItem, ProductFaq, Review, Wishlist, Notification, Coupon
 from vendor.models import Vendor
 
-
+# In Serializer classes, we convert complex datatypes to simple datatypes such as JSON or XML before sending from backend to frontend or otherwise
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category

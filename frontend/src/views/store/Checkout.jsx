@@ -169,32 +169,32 @@ function Checkout() {
                                     <h5 className="mb-3">Order Summary</h5>
                                     <div className="d-flex justify-content-between mb-3">
                                         <span>Subtotal </span>
-                                        <span>Rs. {order.sub_total}</span>
+                                        <span>${order.sub_total}</span>
                                     </div>
                                     <div className="d-flex justify-content-between">
                                         <span>Shipping </span>
-                                        <span>Rs. {order.shipping_amount}</span>
+                                        <span>${order.shipping_amount}</span>
                                     </div>
                                     <div className="d-flex justify-content-between">
                                         <span>Tax </span>
-                                        <span>Rs. {order.tax_fee}</span>
+                                        <span>${order.tax_fee}</span>
                                     </div>
                                     <div className="d-flex justify-content-between">
                                         <span>Service Fee </span>
-                                        <span>Rs. {order.service_fee}</span>
+                                        <span>${order.service_fee}</span>
                                     </div>
 
                                     {order.saved !== "0.00" && 
                                         <div className="d-flex text-danger fw-bold justify-content-between">
                                             <span>Discount </span>
-                                            <span>-Rs. {order.saved}</span>
+                                            <span>-${order.saved}</span>
                                         </div>
                                     }
 
                                     <hr className="my-4" />
                                     <div className="d-flex justify-content-between fw-bold mb-2"> {/* mb-5? */}
                                         <span>Total </span>
-                                        <span>Rs. {order.total}</span>
+                                        <span>${order.total}</span>
                                     </div>
 
                                     <section className='shadow rounded-3 card p-4 rounded-5'>

@@ -241,7 +241,7 @@ function Cart() {
                                                 <p className='fw-bold'>{c.product?.title}</p>
                                                 <p className='mb-1'>
                                                     <span className="text-muted me-2">Price:</span>
-                                                    <span>Rs. {c.price}</span>
+                                                    <span>${c.price}</span>
                                                 </p>
                                                 {c.size !== "No Size" && 
                                                     <p className="mb-1">
@@ -284,7 +284,7 @@ function Cart() {
                                                     <button onClick={() => updateCart(c.product.id, c.product.price, c.product.shipping_amount, c.color, c.size)} className='btn btn-primary ms-2'><i className='fas fa-rotate-right'></i></button>
                                                 </div>
                                                 <h5 className='mb-2'>
-                                                    <span className='align-middle'>Rs. {c.sub_total}</span>
+                                                    <span className='align-middle'>${c.sub_total}</span>
                                                 </h5>
                                                 <p className="text-dark">
                                                     <small>Sub Total</small><br />
@@ -417,24 +417,24 @@ function Cart() {
                                         <h5 className="mb-3">Cart Summary</h5>
                                         <div className="d-flex justify-content-between mb-3">
                                             <span>Subtotal </span>
-                                            <span>Rs. {cartTotal.sub_total?.toFixed(2)}</span>
+                                            <span>${cartTotal.sub_total?.toFixed(2)}</span>
                                         </div>
                                         <div className="d-flex justify-content-between">
                                             <span>Shipping </span>
-                                            <span>Rs. {cartTotal.shipping?.toFixed(2)}</span>
+                                            <span>${cartTotal.shipping?.toFixed(2)}</span>
                                         </div>
                                         <div className="d-flex justify-content-between">
                                             <span>Tax </span>
-                                            <span>Rs. {cartTotal.tax?.toFixed(2)}</span>
+                                            <span>${cartTotal.tax?.toFixed(2)}</span>
                                         </div>
                                         <div className="d-flex justify-content-between">
                                             <span>Service Fee </span>
-                                            <span>Rs. {cartTotal.service_fee?.toFixed(2)}</span>
+                                            <span>${cartTotal.service_fee?.toFixed(2)}</span>
                                         </div>
                                         <hr className="my-4" />
                                         <div className="d-flex justify-content-between fw-bold mb-5">
                                             <span>Total </span>
-                                            <span>Rs. {cartTotal.total?.toFixed(2)}</span>
+                                            <span>${cartTotal.total?.toFixed(2)}</span>
                                         </div>
                                         <button 
                                             type="button"
