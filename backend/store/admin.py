@@ -58,7 +58,7 @@ class NotificationAdmin(admin.ModelAdmin):
     list_display = ['user', 'vendor', 'order', 'order_item']
 
 class CouponAdmin(admin.ModelAdmin):
-    list_display = ['vendor', 'discount']
+    list_display = ['code', 'vendor', 'discount']
 
 
 admin.site.register(Category)

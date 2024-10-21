@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import apiInstance from '../../utils/axios';
 import { useParams, useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2'
 import { PayPalButtons, PayPalScriptProvider } from '@paypal/react-paypal-js';
 
 
@@ -12,15 +13,40 @@ import { PayPalButtons, PayPalScriptProvider } from '@paypal/react-paypal-js';
 
 function Checkout() {
     const [order, setOrder] = useState([])
+    const [couponCode, setCouponCode] = useState("")
 
     const param = useParams()
-    console.log(param.order_oid);
 
-    useEffect(() => {
+    const fetchOrderData = () => {
         apiInstance.get(`checkout/${param.order_oid}/`).then((res) => {
             setOrder(res.data)
         })
+    }
+
+    useEffect(() => {
+        fetchOrderData()
     }, [])
+
+    const applyCoupon = async () => {
+        console.log(couponCode);
+        console.log(order.oid);
+
+        const formdata = new FormData()
+        formdata.append("order_oid", order.oid)
+        formdata.append("coupon_code", couponCode)
+
+        try {
+            const response = await apiInstance.post("coupon/", formdata)
+            fetchOrderData()
+            console.log(response.data.message);
+            Swal.fire({
+                icon: response.data.icon,
+                title: response.data.message
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     return (
         <main>
@@ -157,6 +183,14 @@ function Checkout() {
                                         <span>Service Fee </span>
                                         <span>Rs. {order.service_fee}</span>
                                     </div>
+
+                                    {order.saved !== "0.00" && 
+                                        <div className="d-flex text-danger fw-bold justify-content-between">
+                                            <span>Discount </span>
+                                            <span>-Rs. {order.saved}</span>
+                                        </div>
+                                    }
+
                                     <hr className="my-4" />
                                     <div className="d-flex justify-content-between fw-bold mb-2"> {/* mb-5? */}
                                         <span>Total </span>
@@ -170,8 +204,12 @@ function Checkout() {
                                                 type="text" 
                                                 className='form-control rounded me-1' 
                                                 placeholder='Promo code'
+                                                onChange={(e) => setCouponCode(e.target.value)}
                                             />
-                                            <button type='button' className='btn btn-success btn-rounded overflow-visible'>
+                                            <button 
+                                            type='button' 
+                                            className='btn btn-success btn-rounded overflow-visible' 
+                                            onClick={applyCoupon}>
                                                 Apply
                                             </button>
                                         </div>
