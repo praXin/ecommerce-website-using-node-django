@@ -12,6 +12,11 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 from datetime import timedelta
+from environs import Env
+
+# to create environment variables
+env = Env()
+env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -150,8 +155,13 @@ CORS_ALLOW_ALL_ORIGINS = True
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Check how to write SIMPLE_JWT_TOKEN and what all the fields stand for
-SIMPLE_JWT_TOKEN = {
+# read stripe keys from .env file which contains environment variables
+STRIPE_PUBLIC_KEY = env("STRIPE_PUBLIC_KEY")
+STRIPE_SECRET_KEY = env("STRIPE_SECRET_KEY")
+
+# Check how to write SIMPLE_JWT and what all the fields stand for
+# SIMPLE_JWT or SIMPLE_JWT_TOKEN? Check
+SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=50),
     'ROTATE_REFRESH_TOKENS': True,

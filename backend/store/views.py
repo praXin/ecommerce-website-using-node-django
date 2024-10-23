@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.conf import settings
 
 from store.models import Category, Tax, Product, Gallery, Specification, Size, Color, Cart, CartOrder, CartOrderItem, ProductFaq, Review, Wishlist, Notification, Coupon
 from store.serializers import ProductSerializer, CategorySerializer, CartSerializer, CartOrderSerializer, CartOrderItemSerializer, CouponSerializer
@@ -12,7 +13,7 @@ from decimal import Decimal
 
 import stripe
 
-stripe.api_key = "sk_test_51QCGX9HpIfVDkyGDfLAmFm6XKnSliXhdJXAedZYYXomZR83N2jVIGuHbEx408TwnSiEC47VLIr47tk9NXbPaxCpZ00J0BmW3rn"
+stripe.api_key = settings.STRIPE_SECRET_KEY
 
 '''
 CreateAPIView: For creating new objects via POST requests only. No listing functionality.
